@@ -10,9 +10,8 @@
 *.env
 !.env.example
 
-# Agile Frame sensitive configs
-agile-frame/.env
-agile-frame/sentinel-configs/
+# Agile Frame sensitive configs (contains API keys - NEVER commit)
+agile-frame/
 agile-frame-extracted/
 Agile Frame Vx Final.txt
 Agile Frame.zip
