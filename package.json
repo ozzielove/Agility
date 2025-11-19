@@ -1,0 +1,17 @@
+{
+  "name": "agility",
+  "version": "1.0.0",
+  "description": "A project integrated with TestSprite for AI-powered testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"TestSprite MCP configured - use Claude Code to run tests\" && exit 0"
+  },
+  "keywords": [
+    "testsprite",
+    "testing",
+    "mcp",
+    "agility"
+  ],
+  "author": "",
+  "license": "ISC"
+}
