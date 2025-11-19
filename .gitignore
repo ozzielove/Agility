@@ -1,26 +1,91 @@
+# ==========================================
+# SECURITY: API Keys & Secrets
+# ==========================================
 # TestSprite Configuration (contains API key)
 .testsprite-config.json
 
+# Environment variables (ALL)
+.env
+.env.*
+*.env
+!.env.example
+
+# Agile Frame sensitive configs
+agile-frame/.env
+agile-frame/sentinel-configs/
+agile-frame-extracted/
+Agile Frame Vx Final.txt
+Agile Frame.zip
+
+# API Keys & Tokens
+**/n8n-credentials*.json
+**/*secret*.json
+**/*token*.txt
+**/*api-key*.txt
+
+# ==========================================
+# Build & Dependencies
+# ==========================================
 # Node modules
 node_modules/
+package-lock.json
 
-# Environment variables
-.env
-.env.local
-.env.*.local
+# iOS Build
+ios/build/
+ios/Pods/
+ios/*.xcworkspace
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
 
+# Flutter Build
+flutter/build/
+flutter/.dart_tool/
+flutter/.flutter-plugins
+flutter/.flutter-plugins-dependencies
+flutter/.packages
+
+# ==========================================
+# IDE & OS
+# ==========================================
 # IDE
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
 
 # OS
 .DS_Store
 Thumbs.db
+*.bak
 
+# ==========================================
+# Testing & Logs
+# ==========================================
 # Logs
 *.log
 logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Test results
 test-results/
 coverage/
+*.lcov
+.nyc_output/
+
+# ==========================================
+# Temporary & Cache
+# ==========================================
+tmp/
+temp/
+.cache/
+*.tmp

@@ -1,0 +1,335 @@
+{
+  "project": {
+    "name": "Agility Financial App",
+    "version": "1.0.0",
+    "type": "ios-financial",
+    "platforms": ["ios", "flutter"],
+    "language": ["swift", "dart"]
+  },
+  "codeAnalysis": {
+    "enabled": true,
+    "paths": [
+      "ios/Agility/**/*.swift",
+      "flutter/lib/**/*.dart",
+      "backend/**/*.{js,ts,py}"
+    ],
+    "exclude": [
+      "**/node_modules/**",
+      "**/build/**",
+      "**/*.test.*",
+      "**/*.spec.*"
+    ],
+    "features": {
+      "extractUserStories": true,
+      "identifyAPIEndpoints": true,
+      "mapDataModels": true,
+      "detectSecurityPatterns": true,
+      "analyzeUIFlows": true
+    }
+  },
+  "prdGeneration": {
+    "enabled": true,
+    "outputPath": "docs/PRD.md",
+    "template": "docs/PRD_TEMPLATE.md",
+    "autoUpdate": true,
+    "sections": [
+      "executive-summary",
+      "user-stories",
+      "functional-requirements",
+      "non-functional-requirements",
+      "technical-constraints",
+      "testing-requirements"
+    ],
+    "analysisDepth": "comprehensive",
+    "includeMetrics": true
+  },
+  "testGeneration": {
+    "frontend": {
+      "enabled": true,
+      "framework": "xctest",
+      "coverageTarget": 90,
+      "testTypes": [
+        "unit",
+        "integration",
+        "ui",
+        "accessibility",
+        "performance"
+      ],
+      "scenarios": [
+        "user-journeys",
+        "navigation-flows",
+        "form-validation",
+        "error-handling",
+        "offline-mode",
+        "state-management"
+      ],
+      "outputPath": "testsprite/test-suites/frontend"
+    },
+    "backend": {
+      "enabled": true,
+      "framework": "jest",
+      "coverageTarget": 95,
+      "testTypes": [
+        "api",
+        "database",
+        "authentication",
+        "authorization",
+        "integration"
+      ],
+      "scenarios": [
+        "api-endpoints",
+        "database-operations",
+        "auth-flows",
+        "payment-processing",
+        "security-controls",
+        "error-responses"
+      ],
+      "outputPath": "testsprite/test-suites/backend"
+    },
+    "e2e": {
+      "enabled": true,
+      "framework": "detox",
+      "scenarios": [
+        "registration-to-first-transaction",
+        "login-to-dashboard",
+        "p2p-transfer-complete-flow",
+        "bill-payment-flow",
+        "budget-creation-flow",
+        "fraud-report-flow"
+      ],
+      "outputPath": "testsprite/test-suites/e2e"
+    }
+  },
+  "execution": {
+    "cloud": {
+      "enabled": true,
+      "provider": "aws-device-farm",
+      "fallback": "firebase-test-lab",
+      "devices": [
+        {
+          "name": "iPhone 14 Pro",
+          "os": "iOS 17.0",
+          "priority": 1
+        },
+        {
+          "name": "iPhone SE (3rd gen)",
+          "os": "iOS 16.0",
+          "priority": 2
+        },
+        {
+          "name": "iPad Air (5th gen)",
+          "os": "iOS 17.0",
+          "priority": 3
+        }
+      ],
+      "parallelization": true,
+      "maxConcurrent": 10
+    },
+    "schedule": {
+      "smoke": {
+        "trigger": "on-commit",
+        "tests": ["critical-paths"],
+        "timeout": 300
+      },
+      "full": {
+        "trigger": "nightly",
+        "cron": "0 2 * * *",
+        "tests": ["all"],
+        "timeout": 3600
+      },
+      "regression": {
+        "trigger": "weekly",
+        "cron": "0 2 * * 0",
+        "tests": ["all", "performance", "security"],
+        "timeout": 7200
+      }
+    },
+    "retryPolicy": {
+      "maxRetries": 3,
+      "retryDelay": 5000,
+      "retryOn": ["network-error", "timeout", "device-unavailable"]
+    }
+  },
+  "reporting": {
+    "formats": ["html", "json", "junit"],
+    "outputPath": "testsprite/reports",
+    "screenshots": {
+      "enabled": true,
+      "onFailure": true,
+      "onSuccess": false
+    },
+    "video": {
+      "enabled": true,
+      "onFailure": true,
+      "quality": "high"
+    },
+    "logs": {
+      "console": true,
+      "network": true,
+      "device": true,
+      "application": true
+    },
+    "metrics": {
+      "performance": true,
+      "memory": true,
+      "cpu": true,
+      "network": true,
+      "battery": true
+    },
+    "notifications": {
+      "slack": {
+        "enabled": true,
+        "webhook": "${SLACK_WEBHOOK_URL}",
+        "channels": ["#agility-tests"],
+        "onFailure": true,
+        "onSuccess": false
+      },
+      "email": {
+        "enabled": true,
+        "recipients": ["${TEST_TEAM_EMAIL}"],
+        "onFailure": true,
+        "onSuccess": false,
+        "digest": {
+          "enabled": true,
+          "frequency": "daily",
+          "time": "09:00"
+        }
+      },
+      "pagerduty": {
+        "enabled": true,
+        "serviceKey": "${PAGERDUTY_SERVICE_KEY}",
+        "onCriticalFailure": true,
+        "severity": "high"
+      }
+    }
+  },
+  "analysis": {
+    "failureDetection": {
+      "enabled": true,
+      "categorization": true,
+      "rootCauseAnalysis": true,
+      "similarFailureGrouping": true
+    },
+    "missingFeatures": {
+      "enabled": true,
+      "comparePRDToCode": true,
+      "identifyGaps": true,
+      "prioritize": true
+    },
+    "recommendations": {
+      "enabled": true,
+      "generateFixes": true,
+      "rankBySeverity": true,
+      "includeCodeSamples": true,
+      "ciIntegration": true
+    },
+    "regression": {
+      "enabled": true,
+      "baseline": "main",
+      "compareResults": true,
+      "trendAnalysis": true,
+      "alertOnDegradation": true
+    }
+  },
+  "maintenance": {
+    "autoUpdate": {
+      "enabled": true,
+      "onCodeChange": true,
+      "onPRDUpdate": true,
+      "reviewRequired": false
+    },
+    "testPruning": {
+      "enabled": true,
+      "removeObsolete": true,
+      "archiveOld": true,
+      "retentionDays": 90
+    },
+    "optimization": {
+      "enabled": true,
+      "deduplicateTests": true,
+      "parallelizeWherePossible": true,
+      "optimizeExecutionOrder": true
+    }
+  },
+  "security": {
+    "secretsManagement": {
+      "provider": "aws-secrets-manager",
+      "rotationEnabled": true,
+      "encryptionAtRest": true
+    },
+    "testDataMasking": {
+      "enabled": true,
+      "maskPII": true,
+      "maskFinancialData": true
+    },
+    "complianceChecks": {
+      "pciDss": true,
+      "soc2": true,
+      "gdpr": true
+    }
+  },
+  "financial": {
+    "testFlows": [
+      {
+        "name": "p2p-transfer",
+        "steps": [
+          "authenticate",
+          "select-recipient",
+          "enter-amount",
+          "review-transfer",
+          "confirm-with-mfa",
+          "verify-balance-update",
+          "verify-notification"
+        ],
+        "validations": [
+          "sufficient-balance",
+          "transaction-recorded",
+          "audit-log-created",
+          "recipient-notified"
+        ],
+        "criticalPath": true
+      },
+      {
+        "name": "bill-payment",
+        "steps": [
+          "authenticate",
+          "add-payee",
+          "enter-amount-and-date",
+          "review-payment",
+          "confirm",
+          "verify-scheduled"
+        ],
+        "validations": [
+          "payment-scheduled",
+          "balance-reserved",
+          "reminder-set"
+        ],
+        "criticalPath": true
+      },
+      {
+        "name": "external-account-link",
+        "steps": [
+          "authenticate",
+          "select-bank-via-plaid",
+          "authorize-plaid",
+          "verify-account",
+          "confirm-link"
+        ],
+        "validations": [
+          "account-securely-stored",
+          "encryption-verified",
+          "compliance-check-passed"
+        ],
+        "criticalPath": true
+      }
+    ],
+    "securityValidations": [
+      "encryption-at-rest",
+      "encryption-in-transit",
+      "pci-dss-compliance",
+      "auth-token-expiry",
+      "session-management",
+      "fraud-detection-active"
+    ]
+  }
+}
