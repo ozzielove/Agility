@@ -2,9 +2,11 @@
   "name": "agility",
   "version": "1.0.0",
   "description": "A project integrated with TestSprite for AI-powered testing",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"TestSprite MCP configured - use Claude Code to run tests\" && exit 0"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [
     "testsprite",
@@ -13,5 +15,8 @@
     "agility"
   ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
