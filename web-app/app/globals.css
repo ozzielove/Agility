@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+:root {
+  /* Agility Brand Colors */
+  --agility-dark: #00354A;
+  --agility-mid: #007C91;
+  --agility-primary: #007C91;
+  --agility-light: #35C4E0;
+
+  /* Agility Neutral Palette */
+  --agility-bg: #050B10;
+  --agility-surface: #0F1C26;
+  --agility-surface-hover: #142632;
+  --agility-border: #1E3442;
+  --agility-text: #F5FAFF;
+  --agility-text-muted: #A3B7C5;
+  --agility-disabled: #5C6C79;
+
+  /* Agility Status Colors */
+  --agility-success: #29CC97;
+  --agility-warning: #FFC857;
+  --agility-error: #FF5171;
+  --agility-info: #35C4E0;
+
+  /* Base theme */
+  --background: var(--agility-bg);
+  --foreground: var(--agility-text);
+}
+
+@theme inline {
+  /* Agility Color Palette */
+  --color-agility-dark: var(--agility-dark);
+  --color-agility-mid: var(--agility-mid);
+  --color-agility-primary: var(--agility-primary);
+  --color-agility-light: var(--agility-light);
+
+  --color-agility-bg: var(--agility-bg);
+  --color-agility-surface: var(--agility-surface);
+  --color-agility-surface-hover: var(--agility-surface-hover);
+  --color-agility-border: var(--agility-border);
+  --color-agility-text: var(--agility-text);
+  --color-agility-text-muted: var(--agility-text-muted);
+  --color-agility-disabled: var(--agility-disabled);
+
+  --color-agility-success: var(--agility-success);
+  --color-agility-warning: var(--agility-warning);
+  --color-agility-error: var(--agility-error);
+  --color-agility-info: var(--agility-info);
+
+  /* Base colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* Font family */
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Border radius */
+  --radius-xl: 0.75rem;
+  --radius-3xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Animation */
+  --animate-shimmer: shimmer 2s linear infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--agility-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--agility-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--agility-text-muted);
+}
+
+/* Selection styling */
+::selection {
+  background-color: var(--agility-primary);
+  color: var(--agility-text);
+}
