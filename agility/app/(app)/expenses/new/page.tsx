@@ -47,6 +47,7 @@ export default function NewExpensePage() {
       notes: formData.notes || undefined,
       isDeductible: formData.isDeductible,
       receiptUrl: formData.receiptUrl || undefined,
+      currency: "USD",
     });
 
     router.push("/expenses");

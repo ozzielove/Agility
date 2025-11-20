@@ -2,7 +2,7 @@
  * Formatting utility functions
  */
 
-import { format as formatDate, formatDistance, formatRelative } from "date-fns";
+import { format as dateFnsFormat, formatDistance, formatRelative } from "date-fns";
 
 /**
  * Format currency with proper symbol and decimals
@@ -49,7 +49,7 @@ export function formatPercentage(
  */
 export function formatDateString(date: Date | string, formatStr: string = "MMM dd, yyyy"): string {
   const d = typeof date === "string" ? new Date(date) : date;
-  return formatDate(d, formatStr);
+  return dateFnsFormat(d, formatStr);
 }
 
 /**
@@ -106,4 +106,11 @@ export function getInitials(name: string): string {
  */
 export function generateId(): string {
   return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+}
+
+/**
+ * Format date (alias for formatDateString with default format)
+ */
+export function formatDate(date: Date | string): string {
+  return formatDateString(date);
 }

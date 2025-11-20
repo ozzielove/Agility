@@ -19,7 +19,7 @@ const COLORS = [
   'var(--agility-error)',
 ];
 
-function CustomTooltip({ active, payload }: TooltipProps<number, string>) {
+function CustomTooltip({ active, payload }: any) {
   if (active && payload && payload.length) {
     return (
       <div className="rounded-lg border border-agility-border bg-agility-surface p-3 shadow-lg">
@@ -58,7 +58,7 @@ export function PieChart({
           innerRadius={innerRadius}
           fill="#8884d8"
           dataKey="value"
-          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+          label={({ name, percent }) => `${name} ${((percent || 0) * 100).toFixed(0)}%`}
         >
           {dataWithTotal.map((entry, index) => (
             <Cell

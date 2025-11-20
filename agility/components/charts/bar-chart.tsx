@@ -19,7 +19,7 @@ const COLORS = [
   'var(--agility-info)',
 ];
 
-function CustomTooltip({ active, payload, label }: TooltipProps<number, string>) {
+function CustomTooltip({ active, payload, label }: any) {
   if (active && payload && payload.length) {
     return (
       <div className="rounded-lg border border-agility-border bg-agility-surface p-3 shadow-lg">

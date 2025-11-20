@@ -20,12 +20,12 @@ interface LineChartProps {
   showLegend?: boolean;
 }
 
-function CustomTooltip({ active, payload, label }: TooltipProps<number, string>) {
+function CustomTooltip({ active, payload, label }: any) {
   if (active && payload && payload.length) {
     return (
       <div className="rounded-lg border border-agility-border bg-agility-surface p-3 shadow-lg">
         <p className="text-sm font-medium text-agility-text mb-2">{label}</p>
-        {payload.map((entry, index) => (
+        {payload.map((entry: any, index: number) => (
           <div key={index} className="flex items-center justify-between gap-4">
             <span className="text-xs text-agility-text-muted">{entry.name}:</span>
             <span className="text-sm font-bold" style={{ color: entry.color }}>

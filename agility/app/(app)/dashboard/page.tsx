@@ -358,23 +358,9 @@ export default function DashboardPage() {
                     )}
                   >
                     {transaction.type === "INCOME" ? (
-                      <TrendingUp
-                        className={cn(
-                          "h-5 w-5",
-                          transaction.type === "INCOME"
-                            ? "text-agility-success"
-                            : "text-agility-error"
-                        )}
-                      />
+                      <TrendingUp className="h-5 w-5 text-agility-success" />
                     ) : (
-                      <TrendingDown
-                        className={cn(
-                          "h-5 w-5",
-                          transaction.type === "INCOME"
-                            ? "text-agility-success"
-                            : "text-agility-error"
-                        )}
-                      />
+                      <TrendingDown className="h-5 w-5 text-agility-error" />
                     )}
                   </div>
                   <div className="flex-1">

@@ -48,6 +48,7 @@ export default function ScanReceiptPage() {
       description: "Scanned from receipt",
       isDeductible: true,
       receiptUrl: "mock-receipt-url",
+      currency: "USD",
     });
 
     router.push("/expenses");

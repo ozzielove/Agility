@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "default" | "primary" | "secondary" | "ghost" | "destructive";
+  variant?: "default" | "primary" | "secondary" | "outline" | "ghost" | "destructive";
   size?: "default" | "sm" | "lg" | "icon";
   asChild?: boolean;
 }
@@ -22,6 +22,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               variant === "default",
             "bg-agility-surface text-agility-text hover:bg-agility-surface-hover border border-agility-border":
               variant === "secondary",
+            "border border-agility-border bg-transparent text-agility-text hover:bg-agility-surface-hover":
+              variant === "outline",
             "hover:bg-agility-surface hover:text-agility-text":
               variant === "ghost",
             "bg-agility-error text-white hover:bg-agility-error/90":
