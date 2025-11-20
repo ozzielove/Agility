@@ -11,7 +11,7 @@ import type {
   AIInsight,
 } from "../types/dashboard";
 import type { Invoice } from "../types/invoice";
-import type { Expense } from "../types/expense";
+import type { Expense, Category } from "../types/expense";
 import { startOfMonth, format, subMonths } from "date-fns";
 
 export function generateDashboardStats(
@@ -159,7 +159,7 @@ export function generateFinancialHealthScore(
 
 export function generateCategoryBreakdown(
   expenses: Expense[],
-  categories: any[]
+  categories: Category[]
 ): CategoryBreakdown[] {
   const categoryMap = new Map<string, number>();
   const total = expenses.reduce((sum, exp) => sum + exp.amount, 0);

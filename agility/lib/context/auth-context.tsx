@@ -24,17 +24,11 @@ export interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Load user from localStorage on mount
-  useEffect(() => {
-    const storedUser = getItem<AuthUser>(STORAGE_KEYS.USER);
-    if (storedUser) {
-      setUser(storedUser);
-    }
-    setIsLoading(false);
-  }, []);
+  const [user, setUser] = useState<AuthUser | null>(() => {
+    // Initialize from localStorage
+    return getItem<AuthUser>(STORAGE_KEYS.USER);
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
   const signIn = async (email: string, password: string): Promise<void> => {
     // Simulate API delay
