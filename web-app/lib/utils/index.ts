@@ -165,3 +165,23 @@ export function getInitials(name: string): string {
 export function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+// Format relative date (wrapper for formatDate)
+export function formatRelativeDate(date: Date | string): string {
+  return formatDate(date, 'relative');
+}
+
+// Convert string to URL-safe slug
+export function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '') // Remove special characters
+    .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
+    .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+}
+
+// Simple tax calculation (amount * rate / 100)
+export function calculateSimpleTax(amount: number, rate: number): number {
+  return amount * (rate / 100);
+}
