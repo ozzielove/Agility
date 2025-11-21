@@ -1,107 +1,209 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { getItem, setItem, removeItem, STORAGE_KEYS } from "../storage/local-storage";
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import type { User, UserSettings } from '@/lib/types';
 
-export interface AuthUser {
-  id: string;
-  email: string;
-  name: string;
-  businessName?: string;
-  avatar?: string;
-}
-
-export interface AuthContextType {
-  user: AuthUser | null;
+interface AuthState {
+  user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string, name: string) => Promise<void>;
-  signOut: () => void;
-  updateUser: (updates: Partial<AuthUser>) => void;
+  settings: UserSettings;
 }
+
+interface AuthContextType extends AuthState {
+  login: (email: string, password: string) => Promise<boolean>;
+  loginWithGoogle: () => Promise<boolean>;
+  signup: (email: string, password: string, name: string) => Promise<boolean>;
+  logout: () => void;
+  updateUser: (updates: Partial<User>) => void;
+  updateSettings: (updates: Partial<UserSettings>) => void;
+}
+
+const defaultSettings: UserSettings = {
+  currency: 'USD',
+  taxRate: 0.25,
+  fiscalYearStart: 'january',
+  defaultCategory: 'other',
+  notifications: {
+    invoiceReminders: true,
+    taxDeadlines: true,
+    weeklyReports: true,
+    unusualActivity: true,
+  },
+  appearance: 'system',
+};
+
+const mockUser: User = {
+  id: 'user-1',
+  email: 'demo@agility.app',
+  name: 'Alex Johnson',
+  businessName: 'Alex Johnson Consulting',
+  avatar: undefined,
+  subscription: 'pro',
+  createdAt: new Date('2024-01-15'),
+};
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const AUTH_STORAGE_KEY = 'agility_auth';
+const SETTINGS_STORAGE_KEY = 'agility_settings';
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(() => {
-    // Initialize from localStorage
-    return getItem<AuthUser>(STORAGE_KEYS.USER);
+  const [state, setState] = useState<AuthState>({
+    user: null,
+    isAuthenticated: false,
+    isLoading: true,
+    settings: defaultSettings,
   });
-  const [isLoading, setIsLoading] = useState(false);
 
-  const signIn = async (email: string, password: string): Promise<void> => {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
+  // Load auth state from localStorage
+  useEffect(() => {
+    const loadAuth = () => {
+      try {
+        const savedAuth = localStorage.getItem(AUTH_STORAGE_KEY);
+        const savedSettings = localStorage.getItem(SETTINGS_STORAGE_KEY);
 
-    // Mock authentication - accept any credentials
-    const mockUser: AuthUser = {
-      id: "user-1",
-      email,
-      name: email.split("@")[0],
-      businessName: undefined,
-      avatar: undefined,
+        if (savedAuth) {
+          const parsed = JSON.parse(savedAuth);
+          setState((prev) => ({
+            ...prev,
+            user: { ...parsed.user, createdAt: new Date(parsed.user.createdAt) },
+            isAuthenticated: true,
+            isLoading: false,
+            settings: savedSettings ? JSON.parse(savedSettings) : defaultSettings,
+          }));
+        } else {
+          setState((prev) => ({ ...prev, isLoading: false }));
+        }
+      } catch {
+        setState((prev) => ({ ...prev, isLoading: false }));
+      }
     };
 
-    setUser(mockUser);
-    setItem(STORAGE_KEYS.USER, mockUser);
-    setItem(STORAGE_KEYS.AUTH_TOKEN, "mock-jwt-token");
-  };
+    loadAuth();
+  }, []);
 
-  const signUp = async (
-    email: string,
-    password: string,
-    name: string
-  ): Promise<void> => {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
+  const login = useCallback(async (email: string, password: string): Promise<boolean> => {
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // Create new mock user
-    const newUser: AuthUser = {
-      id: `user-${Date.now()}`,
-      email,
-      name,
-      businessName: undefined,
-      avatar: undefined,
-    };
+    // Mock validation - accept any email/password for demo
+    if (email && password.length >= 6) {
+      const user: User = {
+        ...mockUser,
+        email,
+        name: email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()),
+      };
 
-    setUser(newUser);
-    setItem(STORAGE_KEYS.USER, newUser);
-    setItem(STORAGE_KEYS.AUTH_TOKEN, "mock-jwt-token");
-  };
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({ user }));
 
-  const signOut = () => {
-    setUser(null);
-    removeItem(STORAGE_KEYS.USER);
-    removeItem(STORAGE_KEYS.AUTH_TOKEN);
-    removeItem(STORAGE_KEYS.ONBOARDING_COMPLETE);
-  };
+      setState((prev) => ({
+        ...prev,
+        user,
+        isAuthenticated: true,
+      }));
 
-  const updateUser = (updates: Partial<AuthUser>) => {
-    if (!user) return;
+      return true;
+    }
 
-    const updatedUser = { ...user, ...updates };
-    setUser(updatedUser);
-    setItem(STORAGE_KEYS.USER, updatedUser);
-  };
+    return false;
+  }, []);
 
-  const value: AuthContextType = {
-    user,
-    isAuthenticated: !!user,
-    isLoading,
-    signIn,
-    signUp,
-    signOut,
-    updateUser,
-  };
+  const loginWithGoogle = useCallback(async (): Promise<boolean> => {
+    // Simulate OAuth flow
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({ user: mockUser }));
+
+    setState((prev) => ({
+      ...prev,
+      user: mockUser,
+      isAuthenticated: true,
+    }));
+
+    return true;
+  }, []);
+
+  const signup = useCallback(
+    async (email: string, password: string, name: string): Promise<boolean> => {
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      if (email && password.length >= 6 && name) {
+        const user: User = {
+          id: `user-${Date.now()}`,
+          email,
+          name,
+          subscription: 'free',
+          createdAt: new Date(),
+        };
+
+        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({ user }));
+
+        setState((prev) => ({
+          ...prev,
+          user,
+          isAuthenticated: true,
+        }));
+
+        return true;
+      }
+
+      return false;
+    },
+    []
+  );
+
+  const logout = useCallback(() => {
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+    setState({
+      user: null,
+      isAuthenticated: false,
+      isLoading: false,
+      settings: defaultSettings,
+    });
+  }, []);
+
+  const updateUser = useCallback((updates: Partial<User>) => {
+    setState((prev) => {
+      if (!prev.user) return prev;
+      const updatedUser = { ...prev.user, ...updates };
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({ user: updatedUser }));
+      return { ...prev, user: updatedUser };
+    });
+  }, []);
+
+  const updateSettings = useCallback((updates: Partial<UserSettings>) => {
+    setState((prev) => {
+      const updatedSettings = { ...prev.settings, ...updates };
+      localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(updatedSettings));
+      return { ...prev, settings: updatedSettings };
+    });
+  }, []);
+
+  return (
+    <AuthContext.Provider
+      value={{
+        ...state,
+        login,
+        loginWithGoogle,
+        signup,
+        logout,
+        updateUser,
+        updateSettings,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
-export function useAuth(): AuthContextType {
+export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 }
+
+export default AuthContext;

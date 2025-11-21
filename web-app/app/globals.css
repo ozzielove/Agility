@@ -1,107 +1,270 @@
 @import "tailwindcss";
 
+/* Agility Brand Color System - Based on UI/UX PRD */
 :root {
-  /* Agility Brand Colors */
-  --agility-dark: #00354A;
-  --agility-mid: #007C91;
-  --agility-primary: #007C91;
-  --agility-light: #35C4E0;
+  /* Primary Colors */
+  --primary-dark: #00354A;
+  --primary-mid: #007C91;
+  --primary-light: #35C4E0;
 
-  /* Agility Neutral Palette */
-  --agility-bg: #050B10;
-  --agility-surface: #0F1C26;
-  --agility-surface-hover: #142632;
-  --agility-border: #1E3442;
-  --agility-text: #F5FAFF;
-  --agility-text-muted: #A3B7C5;
-  --agility-disabled: #5C6C79;
+  /* Neutrals - Light Mode */
+  --background: #F5FAFF;
+  --surface: #FFFFFF;
+  --surface-elevated: #FFFFFF;
+  --border: #E2E8F0;
+  --text-primary: #0F1C26;
+  --text-secondary: #64748B;
+  --text-muted: #94A3B8;
 
-  /* Agility Status Colors */
-  --agility-success: #29CC97;
-  --agility-warning: #FFC857;
-  --agility-error: #FF5171;
-  --agility-info: #35C4E0;
+  /* Status Colors */
+  --success: #29CC97;
+  --success-light: #ECFDF5;
+  --warning: #FFC857;
+  --warning-light: #FFFBEB;
+  --error: #FF5171;
+  --error-light: #FEF2F2;
+  --info: #35C4E0;
+  --info-light: #F0F9FF;
 
-  /* Base theme */
-  --background: var(--agility-bg);
-  --foreground: var(--agility-text);
-}
+  /* Category Colors */
+  --category-meals: #FF8C42;
+  --category-transport: #4F46E5;
+  --category-office: #0EA5E9;
+  --category-software: #8B5CF6;
+  --category-marketing: #EC4899;
+  --category-utilities: #14B8A6;
+  --category-other: #6B7280;
 
-@theme inline {
-  /* Agility Color Palette */
-  --color-agility-dark: var(--agility-dark);
-  --color-agility-mid: var(--agility-mid);
-  --color-agility-primary: var(--agility-primary);
-  --color-agility-light: var(--agility-light);
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
 
-  --color-agility-bg: var(--agility-bg);
-  --color-agility-surface: var(--agility-surface);
-  --color-agility-surface-hover: var(--agility-surface-hover);
-  --color-agility-border: var(--agility-border);
-  --color-agility-text: var(--agility-text);
-  --color-agility-text-muted: var(--agility-text-muted);
-  --color-agility-disabled: var(--agility-disabled);
-
-  --color-agility-success: var(--agility-success);
-  --color-agility-warning: var(--agility-warning);
-  --color-agility-error: var(--agility-error);
-  --color-agility-info: var(--agility-info);
-
-  /* Base colors */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-
-  /* Font family */
-  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-
-  /* Border radius */
-  --radius-xl: 0.75rem;
-  --radius-3xl: 1.5rem;
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
   --radius-full: 9999px;
 
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
+
   /* Animation */
-  --animate-shimmer: shimmer 2s linear infinite;
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 350ms;
 }
 
-@keyframes shimmer {
-  from {
-    background-position: 0 0;
-  }
-  to {
-    background-position: -200% 0;
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #050B10;
+    --surface: #0F1C26;
+    --surface-elevated: #1A2C38;
+    --border: #1E3442;
+    --text-primary: #F5FAFF;
+    --text-secondary: #A3B7C5;
+    --text-muted: #6B8294;
   }
 }
 
+/* Force dark mode class */
+.dark {
+  --background: #050B10;
+  --surface: #0F1C26;
+  --surface-elevated: #1A2C38;
+  --border: #1E3442;
+  --text-primary: #F5FAFF;
+  --text-secondary: #A3B7C5;
+  --text-muted: #6B8294;
+}
+
+/* Tailwind Theme Extensions */
+@theme inline {
+  /* Colors */
+  --color-background: var(--background);
+  --color-foreground: var(--text-primary);
+  --color-primary: var(--primary-mid);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-light: var(--primary-light);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-border: var(--border);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-info: var(--info);
+
+  /* Typography */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+/* Base Styles */
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scrollbar styling */
+/* Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--agility-surface);
+  background: var(--surface);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--agility-border);
-  border-radius: 4px;
+  background: var(--border);
+  border-radius: var(--radius-full);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--agility-text-muted);
+  background: var(--text-muted);
 }
 
-/* Selection styling */
+/* Selection */
 ::selection {
-  background-color: var(--agility-primary);
-  color: var(--agility-text);
+  background: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+/* Focus Styles */
+*:focus-visible {
+  outline: 2px solid var(--primary-mid);
+  outline-offset: 2px;
+}
+
+/* Gradients */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 50%, var(--primary-light) 100%);
+}
+
+.gradient-hero {
+  background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary-mid) 100%);
+}
+
+/* Glass Effect */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Card Styles */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-elevated {
+  background: var(--surface-elevated);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+/* Animation Classes */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in {
+  animation: fade-in var(--duration-normal) ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up var(--duration-normal) ease-out;
+}
+
+.animate-slide-down {
+  animation: slide-down var(--duration-normal) ease-out;
+}
+
+.animate-scale-in {
+  animation: scale-in var(--duration-normal) ease-out;
+}
+
+/* Skeleton Loading */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--surface-elevated) 50%,
+    var(--border) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* Status Badge Colors */
+.badge-paid { background: var(--success-light); color: var(--success); }
+.badge-pending { background: var(--warning-light); color: #B45309; }
+.badge-overdue { background: var(--error-light); color: var(--error); }
+.badge-draft { background: var(--surface); color: var(--text-secondary); }
+.badge-sent { background: var(--info-light); color: var(--primary-mid); }
+
+/* Category Pills */
+.pill-meals { background: rgba(255, 140, 66, 0.15); color: #FF8C42; }
+.pill-transport { background: rgba(79, 70, 229, 0.15); color: #4F46E5; }
+.pill-office { background: rgba(14, 165, 233, 0.15); color: #0EA5E9; }
+.pill-software { background: rgba(139, 92, 246, 0.15); color: #8B5CF6; }
+.pill-marketing { background: rgba(236, 72, 153, 0.15); color: #EC4899; }
+.pill-utilities { background: rgba(20, 184, 166, 0.15); color: #14B8A6; }
+.pill-other { background: rgba(107, 114, 128, 0.15); color: #6B7280; }
+
+/* Responsive Container */
+.container-app {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+@media (min-width: 768px) {
+  .container-app {
+    padding: 0 var(--spacing-lg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-app {
+    padding: 0 var(--spacing-xl);
+  }
 }
