@@ -1,14 +1,15 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/lib/context/auth-context';
 import {
   Receipt,
   FileText,
   TrendingUp,
   Shield,
-  Clock,
-  DollarSign,
   CheckCircle,
   ArrowRight,
   Star,
@@ -28,7 +29,7 @@ const features = [
   {
     icon: TrendingUp,
     title: 'Tax Estimation',
-    description: 'Real-time quarterly tax estimates so you\'re never caught off guard.',
+    description: "Real-time quarterly tax estimates so you're never caught off guard.",
   },
   {
     icon: Shield,
@@ -47,7 +48,7 @@ const testimonials = [
   {
     name: 'Marcus Rodriguez',
     role: 'Independent Consultant',
-    quote: 'Finally, an app that understands freelancer finances. Tax season is no longer stressful.',
+    quote: "Finally, an app that understands freelancer finances. Tax season is no longer stressful.",
     avatar: 'M',
   },
   {
@@ -59,6 +60,33 @@ const testimonials = [
 ];
 
 export default function LandingPage() {
+  const router = useRouter();
+  const { isAuthenticated, isLoading } = useAuth();
+
+  // Redirect authenticated users to dashboard
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      router.push('/dashboard');
+    }
+  }, [isAuthenticated, isLoading, router]);
+
+  // Show loading state while checking auth
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[var(--background)]">
+        <div className="text-center">
+          <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-[var(--primary-mid)] border-r-transparent"></div>
+          <p className="mt-4 text-[var(--text-secondary)]">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render landing page if authenticated (will redirect)
+  if (isAuthenticated) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-[var(--background)]">
       {/* Navigation */}
@@ -71,10 +99,10 @@ export default function LandingPage() {
             <span className="text-xl font-bold text-[var(--text-primary)]">Agility</span>
           </Link>
           <div className="flex items-center gap-4">
-            <Link href="/login">
+            <Link href="/sign-in">
               <Button variant="ghost">Sign In</Button>
             </Link>
-            <Link href="/signup">
+            <Link href="/sign-up">
               <Button>Get Started</Button>
             </Link>
           </div>
@@ -96,24 +124,23 @@ export default function LandingPage() {
               </span>
             </h1>
             <p className="mt-6 text-lg text-[var(--text-secondary)] sm:text-xl">
-              Manage your freelance finances with AI-powered expense tracking, professional invoicing, and real-time tax estimates. Spend less time on paperwork, more time doing what you love.
+              Manage your freelance finances with AI-powered expense tracking, professional invoicing, and real-time
+              tax estimates. Spend less time on paperwork, more time doing what you love.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/signup">
+              <Link href="/sign-up">
                 <Button size="lg" className="text-lg px-8">
                   Start Free Trial
                   <ArrowRight className="h-5 w-5" />
                 </Button>
               </Link>
-              <Link href="/login">
+              <Link href="/sign-in">
                 <Button variant="outline" size="lg" className="text-lg px-8">
-                  View Demo
+                  Sign In
                 </Button>
               </Link>
             </div>
-            <p className="mt-4 text-sm text-[var(--text-muted)]">
-              No credit card required. 14-day free trial.
-            </p>
+            <p className="mt-4 text-sm text-[var(--text-muted)]">No credit card required. 14-day free trial.</p>
           </div>
         </div>
       </section>
@@ -165,34 +192,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-20 px-4 bg-[var(--surface)]">
-        <div className="container-app">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-[var(--text-primary)] sm:text-4xl">
-              Get started in minutes
-            </h2>
-          </div>
-          <div className="grid gap-8 md:grid-cols-3">
-            {[
-              { step: '1', title: 'Connect Your Accounts', desc: 'Link your bank accounts securely for automatic transaction import' },
-              { step: '2', title: 'Categorize Expenses', desc: 'AI automatically categorizes your expenses. Just review and approve.' },
-              { step: '3', title: 'Stay Tax Ready', desc: 'Get real-time tax estimates and never be surprised at tax time.' },
-            ].map((item) => (
-              <div key={item.step} className="relative text-center">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full gradient-primary text-white text-2xl font-bold">
-                  {item.step}
-                </div>
-                <h3 className="mt-6 text-xl font-semibold text-[var(--text-primary)]">{item.title}</h3>
-                <p className="mt-2 text-[var(--text-secondary)]">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Testimonials */}
-      <section className="py-20 px-4">
+      <section className="py-20 px-4 bg-[var(--surface)]">
         <div className="container-app">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-[var(--text-primary)] sm:text-4xl">
@@ -203,7 +204,7 @@ export default function LandingPage() {
             {testimonials.map((testimonial) => (
               <div
                 key={testimonial.name}
-                className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6"
+                className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-6"
               >
                 <div className="flex items-center gap-1 text-[var(--warning)]">
                   {[...Array(5)].map((_, i) => (
@@ -227,15 +228,13 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing */}
-      <section className="py-20 px-4 bg-[var(--surface)]">
+      <section className="py-20 px-4">
         <div className="container-app">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-[var(--text-primary)] sm:text-4xl">
               Simple, transparent pricing
             </h2>
-            <p className="mt-4 text-lg text-[var(--text-secondary)]">
-              Start free, upgrade when you're ready
-            </p>
+            <p className="mt-4 text-lg text-[var(--text-secondary)]">Start free, upgrade when you're ready</p>
           </div>
           <div className="mx-auto max-w-4xl grid gap-8 md:grid-cols-2">
             {/* Free Plan */}
@@ -254,8 +253,10 @@ export default function LandingPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/signup" className="block mt-8">
-                <Button variant="outline" className="w-full">Get Started</Button>
+              <Link href="/sign-up" className="block mt-8">
+                <Button variant="outline" className="w-full">
+                  Get Started
+                </Button>
               </Link>
             </div>
             {/* Pro Plan */}
@@ -270,14 +271,21 @@ export default function LandingPage() {
                 <span className="text-[var(--text-muted)]">/month</span>
               </p>
               <ul className="mt-8 space-y-4">
-                {['Unlimited receipts', 'Advanced invoicing', 'Real-time tax estimates', 'Bank connections', 'Priority support', 'Export reports'].map((feature) => (
+                {[
+                  'Unlimited receipts',
+                  'Advanced invoicing',
+                  'Real-time tax estimates',
+                  'Bank connections',
+                  'Priority support',
+                  'Export reports',
+                ].map((feature) => (
                   <li key={feature} className="flex items-center gap-3 text-[var(--text-secondary)]">
                     <CheckCircle className="h-5 w-5 text-[var(--success)]" />
                     {feature}
                   </li>
                 ))}
               </ul>
-              <Link href="/signup" className="block mt-8">
+              <Link href="/sign-up" className="block mt-8">
                 <Button className="w-full">Start Free Trial</Button>
               </Link>
             </div>
@@ -286,14 +294,14 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4">
+      <section className="py-20 px-4 bg-[var(--surface)]">
         <div className="container-app">
           <div className="rounded-3xl gradient-primary p-12 text-center text-white">
             <h2 className="text-3xl font-bold sm:text-4xl">Ready to take control of your finances?</h2>
             <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto">
               Join thousands of freelancers who have simplified their financial management with Agility.
             </p>
-            <Link href="/signup">
+            <Link href="/sign-up">
               <Button size="lg" variant="secondary" className="mt-8 bg-white text-[var(--primary-dark)] hover:bg-white/90">
                 Start Your Free Trial
                 <ArrowRight className="h-5 w-5" />
@@ -314,13 +322,17 @@ export default function LandingPage() {
               <span className="font-semibold text-[var(--text-primary)]">Agility</span>
             </div>
             <div className="flex gap-6 text-sm text-[var(--text-secondary)]">
-              <Link href="#" className="hover:text-[var(--text-primary)]">Privacy</Link>
-              <Link href="#" className="hover:text-[var(--text-primary)]">Terms</Link>
-              <Link href="#" className="hover:text-[var(--text-primary)]">Contact</Link>
+              <Link href="#" className="hover:text-[var(--text-primary)]">
+                Privacy
+              </Link>
+              <Link href="#" className="hover:text-[var(--text-primary)]">
+                Terms
+              </Link>
+              <Link href="#" className="hover:text-[var(--text-primary)]">
+                Contact
+              </Link>
             </div>
-            <p className="text-sm text-[var(--text-muted)]">
-              &copy; 2024 Agility. All rights reserved.
-            </p>
+            <p className="text-sm text-[var(--text-muted)]">&copy; 2024 Agility. All rights reserved.</p>
           </div>
         </div>
       </footer>
