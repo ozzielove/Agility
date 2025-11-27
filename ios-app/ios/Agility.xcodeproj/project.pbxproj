@@ -1,0 +1,47 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AgilityApp.swift in Sources */,
+		ContentView.swift in Sources */,
+		Assets.xcassets in Resources */,
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		Agility.app */,
+		AgilityApp.swift */,
+		ContentView.swift */,
+		Assets.xcassets */,
+		Info.plist */,
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		Main Group = {
+			isa = PBXGroup;
+			children = (
+				Agility/,
+				Products/,
+			);
+			sourceTree = "<group>";
+		};
+		Agility/ = {
+			isa = PBXGroup;
+			children = (
+				App/,
+				Features/,
+				Core/,
+				Resources/,
+			);
+			path = Agility;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+	};
+	rootObject = /* Project object */;
+}
